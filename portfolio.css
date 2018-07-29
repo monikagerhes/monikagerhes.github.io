@@ -9,11 +9,6 @@ body {
     background-color: #dcf2ee;
 }
 
-p {
-   color: blue; 
-    font-size: 20px;
-}
-
 input {
     font-size: 15px;
     color: black;
@@ -25,3 +20,32 @@ canvas {
     border: grey 5px solid;
 }
 
+p {
+   color: blue; 
+    font-size: 20px;
+}
+
+table {
+    margin: auto;
+    align-content: center;
+}
+
+th {
+    padding: 50px;
+}
+
+a:link {
+    color: darkblue;
+}
+
+a:visited {
+    color: purple;
+}
+
+a:hover {
+    color: hotpink;
+}
+
+a:active {
+    color: green;
+}
