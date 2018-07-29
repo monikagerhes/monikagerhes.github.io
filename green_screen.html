@@ -9,9 +9,6 @@
     <body>
         <h1>Green screen web page</h1>
         
-        <canvas id="can1" width="1000px" height="600px"></canvas>
-        <canvas id="can2" width="1000px" height="600px"></canvas>
-        <br/><br/>
         <p>
         Foreground  : <input type="file" multiple="false" accept="image/*" id="foregroundFileInput" onchange="loadForegroundImage()"><br/><br/>
         Background : <input type="file" multiple="false" accept="image/*" id="backgroundFileInput" onchange="loadBackgroundImage()">
@@ -20,6 +17,12 @@
         <input type="button" value="Clear canvases" onclick="clearCanvas()"><br/><br/>
         <input type="button" value="Crop images" onclick="resizeImagesToTheSame()">
         </p>
+        
+        <canvas id="can1" width="1000px" height="600px"></canvas>
+        <canvas id="can2" width="1000px" height="600px"></canvas>
+        <br/><br/>
+        
+        <br/><br/><br/>
     </body>
-    <!-- here -->
+    
 </html>
