@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>filters for fun</title>
+        <script src="filters.js"></script>
+        <script src="math.min.js"></script>
+        <script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
+        <link rel="stylesheet" type="text/css" href="filters.css">
+    </head>
+    <body>
+        <h1>Filters for fun</h1>
+        <h3>Make your creative images using filters!</h3>
+        
+        <canvas id="can" width="1000px" height="600px"></canvas>
+
+        <br/><br/>
+        
+        <p>
+        Choose a photo:
+        <br/>
+        <input type="file" multiple="false" accept="image/*" id="fileInput" onchange="loadImage()"><br/><br/>
+        <br/><br/>
+        Choose filters:
+        <br/>
+        <input type="button" value="Red" onclick="doRed()"><br/><br/>
+        <input type="button" value="Greyscale" onclick="doGreyscale()"><br/><br/>
+        <input type="button" value="Rainbow" onclick="doRainbow()"><br/><br/>
+        <input type="button" value="Blur" onclick="doBlurred()"><br/><br/>
+        <input type="button" value="Tunnel vision" onclick="doTunnelVision()"><br/><br/>
+        <input type="button" value="Reset the original" onclick="reSet()"><br/><br/>
+        </p>
+    </body>
+    <!-- here -->
+</html>

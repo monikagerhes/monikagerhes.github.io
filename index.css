@@ -1,0 +1,11 @@
+#div1 {
+    float: left;
+    text-align: center;
+    margin-left: 100px;
+}
+
+#div2 {
+    float: right;
+    text-align: center;
+    margin-right: 100px;
+}

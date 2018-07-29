@@ -1,0 +1,27 @@
+h1, h3{
+    color: blue;
+    text-align: center;
+}
+
+body {
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: #dcf2ee;
+}
+
+p {
+   color: blue; 
+    font-size: 20px;
+}
+
+input {
+    font-size: 15px;
+    color: black;
+}
+
+canvas {
+    /*width: 500px;
+    height: 300px;*/
+    border: grey 5px solid;
+}
+
