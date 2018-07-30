@@ -1,5 +1,6 @@
 var fgImage = null;
 var bgImage = null;
+var sldrvalue = 190;
 
 // supplied by Viktor
 function drawToCanvas(canvas, simpleImg){
@@ -38,6 +39,12 @@ function loadBackgroundImage(){
     //bgimage.drawTo(canvas2);
     drawToCanvas(canvas2, bgImage);
 }
+
+function inputFunction(){
+    sldrvalue = document.getElementById("greenRange").value;
+    document.getElementById("valuedemo").innerHTML = "Value: " + sldrvalue;
+}
+
 
 function resizeImagesToTheSame(){
     var img1Loaded = false;
@@ -153,7 +160,7 @@ function doGreenScreen(){
             // if the current pixel is green
             // calculate the green threshold
             
-            if (calcGreenDistance(pixel) < 190){
+            if (calcGreenDistance(pixel) < sldrvalue){
             //if (greenComponentDiff(pixel) > 0){
                 // get the x,y cordinates of the current pixel
                 var fgx = pixel.getX();

@@ -9,20 +9,29 @@
     <body>
         <h1>Green screen web page</h1>
         
-        <p>
-        Foreground  : <input type="file" multiple="false" accept="image/*" id="foregroundFileInput" onchange="loadForegroundImage()"><br/><br/>
-        Background : <input type="file" multiple="false" accept="image/*" id="backgroundFileInput" onchange="loadBackgroundImage()">
-        <br/><br/>
-        <input type="button" value="Create composit" onclick="doGreenScreen()"><br/><br/>
-        <input type="button" value="Clear canvases" onclick="clearCanvas()"><br/><br/>
-        <input type="button" value="Crop images" onclick="resizeImagesToTheSame()">
-        </p>
+        <div>
+            Foreground  : <input type="file" multiple="false" accept="image/*" id="foregroundFileInput" onchange="loadForegroundImage()"><br/><br/>
+            Background : <input type="file" multiple="false" accept="image/*" id="backgroundFileInput" onchange="loadBackgroundImage()">
+        </div><br/>
         
-        <canvas id="can1" width="1000px" height="600px"></canvas>
-        <canvas id="can2" width="1000px" height="600px"></canvas>
-        <br/><br/>
         
-        <br/><br/><br/>
+        <div class="slidecontainer">
+            Set greenscreen sensitivity:
+            <input type="range" min="150" max="255" value="190" class="slider" id="greenRange" oninput="inputFunction()">
+            <p id="valuedemo">Value: <p>
+        </div><br/>
+        
+        <div>
+            <input type="button" value="Create composit" onclick="doGreenScreen()"><br/><br/>
+            <input type="button" value="Clear canvases" onclick="clearCanvas()"><br/><br/>
+            <input type="button" value="Crop images" onclick="resizeImagesToTheSame()">
+        </div><br/>
+        
+        <div class="canvascontainer">
+            <canvas id="can1" width="1000px" height="600px"></canvas>
+            <canvas id="can2" width="1000px" height="600px"></canvas>
+        </div><br/><br/><br/>
+        
     </body>
     
 </html>
