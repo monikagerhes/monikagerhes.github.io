@@ -51,6 +51,30 @@ function redPicMaker(canvas){
     return output;
 }
 
+function doBlue(){
+    isImageLoaded(_currentImg);
+    var bluePic = bluePicMaker(_canvas);
+    drawToCanvas(_canvas, bluePic);
+}
+
+function bluePicMaker(canvas){
+    var output = new SimpleImage(_currentImg);
+    for(var pixel of output.values()){
+        avg = avgRGBcalc(pixel);
+        if(avg < 128){
+            pixel.setRed(0);
+            pixel.setGreen(0);
+            pixel.setBlue(avg * 2);
+        }
+        else{
+            pixel.setRed(avg * 2 - 255);
+            pixel.setGreen(avg * 2 - 255);
+            pixel.setBlue(255);
+        }
+    }
+    return output;
+}
+
 function doGreyscale(){
     isImageLoaded(_currentImg);
     var grayscaledPic = grayscaleMaker(_canvas);

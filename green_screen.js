@@ -23,8 +23,7 @@ function loadForegroundImage(){
     fgImage = new SimpleImage(fimg);
     // get access to the first canvas
     var canvas1 = document.getElementById("can1");
-    // draw the image to the canvas
-    //fgimage.drawTo(canvas1);
+    // draw the image to the canvas1
     drawToCanvas(canvas1, fgImage);
 }
 
@@ -35,16 +34,15 @@ function loadBackgroundImage(){
     bgImage = new SimpleImage(bimg);
     // get access to the second canvas
     var canvas2 = document.getElementById("can2");
-    // draw the image to the canvas
-    //bgimage.drawTo(canvas2);
+    // draw the image to the canvas2
     drawToCanvas(canvas2, bgImage);
 }
 
-function inputFunction(){
+// get the input value of the slider
+function setGreenSensitivity(){
     sldrvalue = document.getElementById("greenRange").value;
     document.getElementById("valuedemo").innerHTML = "Value: " + sldrvalue;
 }
-
 
 function resizeImagesToTheSame(){
     var img1Loaded = false;
@@ -89,7 +87,7 @@ function greatestCommonSize(img1, img2){
 
 function cropToSize(img, commonWidth, commonHeight){
     var output = new SimpleImage(commonWidth, commonHeight);
-    for(pixel of output.values()){
+    for(var pixel of output.values()){
         var x = pixel.getX();
         var y = pixel.getY();
         var startX = x + ((img.width - commonWidth)/2);
@@ -122,7 +120,26 @@ function calcGreenDistance(px){
     return greenDistance;
 }
 
-function greenComponentDiff(px){
+function applyGreenscreenWithGreenDistance(){
+    for(var pixel of fgImage.values()){
+        // if the current pixel is green
+        // calculate the green threshold
+        if (calcGreenDistance(pixel) < sldrvalue){
+            // get the x,y cordinates of the current pixel
+            var fgx = pixel.getX();
+            var fgy = pixel.getY();
+            // get the values of the bgimage pixel at the same cordinates
+            var bgpix = bgImage.getPixel(fgx, fgy);
+            // set all the values of the bgpix on the place of the current pixel of the fgimage
+            pixel.setAllFrom(bgpix);
+        }
+        else{
+            // do nothing
+        }
+    }
+}
+
+function calcGreenAdvantege(px){
     var red = px.getRed();
     var green = px.getGreen();
     var blue = px.getBlue();
@@ -137,10 +154,27 @@ function greenComponentDiff(px){
         }
         diff = green - secondStrongestColor;
     }
-    
     return diff;  
 }
 
+function applyGreenscreenWithGreenAdvantage(){
+ for(var pixel of fgImage.values()){
+    // if the current pixel is green
+    // calculate the green threshold
+    if (calcGreenAdvantege(pixel) > sldrvalue){
+        // get the x,y cordinates of the current pixel
+        var fgx = pixel.getX();
+        var fgy = pixel.getY();
+        // get the values of the bgimage pixel at the same cordinates
+        var bgpix = bgImage.getPixel(fgx, fgy);
+        // set all the values of the bgpix on the place of the current pixel of the fgimage
+        pixel.setAllFrom(bgpix);
+    }
+    else{
+    // do nothing
+    }
+ }
+}
 
 function doGreenScreen(){
     // check the images are loaded
@@ -156,23 +190,11 @@ function doGreenScreen(){
         return;
     }
     else {
-        for(var pixel of fgImage.values()){
-            // if the current pixel is green
-            // calculate the green threshold
-            
-            if (calcGreenDistance(pixel) < sldrvalue){
-            //if (greenComponentDiff(pixel) > 0){
-                // get the x,y cordinates of the current pixel
-                var fgx = pixel.getX();
-                var fgy = pixel.getY();
-                // get the values of the bgimage pixel at the same cordinates
-                var bgpix = bgImage.getPixel(fgx, fgy);
-                // set all the values of the bgpix on the place of the current pixel of the fgimage
-                pixel.setAllFrom(bgpix);
-            }
-            else{
-                // do nothing
-            }
+        if(document.getElementById("greendistancefunc").checked){
+            applyGreenscreenWithGreenDistance();
+        }
+        if(document.getElementById("greenadvantagefunc").checked){
+            applyGreenscreenWithGreenAdvantage();
         }
     }
     // draw the composit to the canvas

@@ -10,14 +10,21 @@
         <h1>Green screen web page</h1>
         
         <div>
-            Foreground  : <input type="file" multiple="false" accept="image/*" id="foregroundFileInput" onchange="loadForegroundImage()"><br/><br/>
-            Background : <input type="file" multiple="false" accept="image/*" id="backgroundFileInput" onchange="loadBackgroundImage()">
+            <p> Foreground  : <input type="file" multiple="false" accept="image/*" id="foregroundFileInput" onchange="loadForegroundImage()"><br/><br/>
+                Background : <input type="file" multiple="false" accept="image/*" id="backgroundFileInput" onchange="loadBackgroundImage()"></p>
         </div><br/>
         
+        <div class="functionchooser">
+            <p>Choose a function: </p>
+            <form action="">
+                <input type="radio" name="func" value="greendistance" id="greendistancefunc" checked> Green distance function<br>
+                <input type="radio" name="func" value="greenadvantage" id= "greenadvantagefunc" > Green advantage function
+            </form>
+        </div>
         
         <div class="slidecontainer">
-            Set greenscreen sensitivity:
-            <input type="range" min="150" max="255" value="190" class="slider" id="greenRange" oninput="inputFunction()">
+            <p>Set greenscreen sensitivity: </p>
+            <input type="range" min="150" max="255" value="190" class="slider" id="greenRange" oninput="setGreenSensitivity()">
             <p id="valuedemo">Value: <p>
         </div><br/>
         
