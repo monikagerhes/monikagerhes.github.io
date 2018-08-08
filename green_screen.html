@@ -6,32 +6,44 @@
         <script src="https://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js"></script>
         <link rel="stylesheet" type="text/css" href="portfolio.css">
     </head>
-    <body>
-        <h1>Green screen web page</h1>
+    <body onload= "setSliderDefaultValue()">
+        <div class="row">
+            <div class="column">
+                <h2></h2>
+                <p></p>
+            </div>
+            <div class="column">
+                <h1>Green screen web page</h1>
+            </div>
+            <div class="column">
+                <p><a href="https://monikagerhes.github.io/green_screen.js" target="_blank">[Click here to see the source code]</a></p>
+            </div>
+        </div>
         
         <div>
-            <p> Foreground  : <input type="file" multiple="false" accept="image/*" id="foregroundFileInput" onchange="loadForegroundImage()"><br/><br/>
+            <p class="bluetext"> 
+                Foreground  : <input type="file" multiple="false" accept="image/*" id="foregroundFileInput" onchange="loadForegroundImage()"><br/><br/>
                 Background : <input type="file" multiple="false" accept="image/*" id="backgroundFileInput" onchange="loadBackgroundImage()"></p>
         </div><br/>
         
         <div class="functionchooser">
-            <p>Choose a function: </p>
+            <p class="bluetext">Choose a function: </p>
             <form action="">
-                <input type="radio" name="func" value="greendistance" id="greendistancefunc" checked> Green distance function<br>
-                <input type="radio" name="func" value="greenadvantage" id= "greenadvantagefunc" > Green advantage function
+                <input type="radio" name="func" value="greendistance" id="greendistancefunc" onclick="changeGreenEvaluationFn()" checked> Green distance function<br>
+                <input type="radio" name="func" value="greenadvantage" id= "greenadvantagefunc" onclick="changeGreenEvaluationFn()"> Green advantage function
             </form>
         </div>
         
         <div class="slidecontainer">
-            <p>Set greenscreen sensitivity: </p>
+            <p class="bluetext">Set greenscreen sensitivity: </p>
             <input type="range" min="150" max="255" value="190" class="slider" id="greenRange" oninput="setGreenSensitivity()">
-            <p id="valuedemo">Value: <p>
+            <p class="bluetext" id="valuedemo">Value: <p>
         </div><br/>
         
         <div>
             <input type="button" value="Create composit" onclick="doGreenScreen()"><br/><br/>
             <input type="button" value="Clear canvases" onclick="clearCanvas()"><br/><br/>
-            <input type="button" value="Crop images" onclick="resizeImagesToTheSame()">
+            <input type="button" value="Crop images" onclick="cropImagesToTheSame()">
         </div><br/>
         
         <div class="canvascontainer">

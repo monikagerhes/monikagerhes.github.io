@@ -1,8 +1,9 @@
+// declare global variables
 var _canvas = null;
 var _currentImg = null;
 var _originalImg = null;
 
-// supplied by Viktor
+// added by Viktor
 function drawToCanvas(canvas, simpleImg){
     if(!simpleImg.imageData){
         setTimeout(function() {
@@ -17,28 +18,31 @@ function drawToCanvas(canvas, simpleImg){
     canvas.getContext('2d').drawImage(simpleImg.canvas, fromX, fromY, simpleImg.width, simpleImg.height);
 }
 
+
 function loadImage(){
     if(_canvas != null){
         clearCanvas();        
     }
-    // get input
-    finput = document.getElementById("fileInput");
-    // create a new SimpleImage
+    // get the js object representing the file input element
+    var finput = document.getElementById("fileInput");
+    // create two new SimpleImage objects based on the chosen file
+    // one for storing the original image, and one for editing
     _originalImg = new SimpleImage(finput);
     _currentImg = new SimpleImage(finput);
-    //get access to the canvas
+    // get the js representation of the canvas
     _canvas = document.getElementById("can");
     // draw the image to the canvas
     drawToCanvas(_canvas, _currentImg);
 }
 
-function doRed(){
-    isImageLoaded(_currentImg);
+function applyRedFilter(){
+    checkImageLoaded(_currentImg);
     var redPic = redPicMaker(_canvas);
     drawToCanvas(_canvas, redPic);
 }
 
-function redPicMaker(canvas){
+// return an image with enhanced red color
+function redPicMaker(img){
     var output = new SimpleImage(_currentImg);
         for(var pixel of output.values()){
             var red = pixel.getRed();
@@ -51,13 +55,14 @@ function redPicMaker(canvas){
     return output;
 }
 
-function doBlue(){
-    isImageLoaded(_currentImg);
+function applyBlueFilter(){
+    checkImageLoaded(_currentImg);
     var bluePic = bluePicMaker(_canvas);
     drawToCanvas(_canvas, bluePic);
 }
 
-function bluePicMaker(canvas){
+// return a blue hue image 
+function bluePicMaker(img){
     var output = new SimpleImage(_currentImg);
     for(var pixel of output.values()){
         avg = avgRGBcalc(pixel);
@@ -75,13 +80,14 @@ function bluePicMaker(canvas){
     return output;
 }
 
-function doGreyscale(){
-    isImageLoaded(_currentImg);
+function applyGreyscaleFilter(){
+    checkImageLoaded(_currentImg);
     var grayscaledPic = grayscaleMaker(_canvas);
     drawToCanvas(_canvas, grayscaledPic);
 }
 
-function grayscaleMaker(canvas){
+// return a grayscale image by setting the pixels' red, green and blue values to their averages
+function grayscaleMaker(img){       
     var output = new SimpleImage(_currentImg);
         for(var pixel of output.values()){
             var avg = (pixel.getRed() + pixel.getGreen() + pixel.getBlue())/3;
@@ -92,13 +98,14 @@ function grayscaleMaker(canvas){
     return output;
 }
 
-function doRainbow(){
-    isImageLoaded(_currentImg);
+function applyRainbowFilter(){
+    checkImageLoaded(_currentImg);
     var rainbowedPic = rainbowMaker(_canvas);
     drawToCanvas(_canvas, rainbowedPic);
 }
 
-function rainbowMaker(canvas){
+// return a 7 striped rainbow colored image
+function rainbowMaker(img){   
     var output = new SimpleImage(_currentImg);
     var imgHeight = output.getHeight();
     for(var pixel of output.values()){
@@ -198,18 +205,20 @@ function rainbowMaker(canvas){
     return output;
 }
 
+// return the average of the color values of the given pixel (i.e. brightness 0-255)
 function avgRGBcalc(px){
     var avg = (px.getRed() + px.getGreen() + px.getBlue()) / 3;
     return avg;
 }
 
-function doBlurred(){
-    isImageLoaded(_currentImg);
+function applyBlurredFilter(){
+    checkImageLoaded(_currentImg);
     var blurredPic = blurredPicMaker(_canvas);
     drawToCanvas(_canvas, blurredPic);
 }
 
-function blurredPicMaker(canvas){
+// return a blurred image by changing each pixel randomly with a surrounding one
+function blurredPicMaker(img){        
     var output = new SimpleImage(_currentImg);
     for(var pixel of output.values()){
         blurPixel(pixel, output, 10, 0.7);
@@ -218,13 +227,17 @@ function blurredPicMaker(canvas){
 }
 
 function blurPixel(pixel, output, blurRange, originalColorRatio){
+    // get the cordinates of the pixel
     var x = pixel.getX();
     var y = pixel.getY();
+    // if the pixel is not on the edge of the image
     if(    x >= blurRange && x <= output.width - blurRange
         && y >= blurRange && y <= output.height - blurRange){
+            // choose a random pixel from the range around the pixel
             var randomX = Math.round(pixel.getX() - blurRange + gaussianRandom() * 2 * blurRange);
             var randomY = Math.round(pixel.getY() - blurRange + gaussianRandom() * 2 * blurRange);
             var randomPix = output.getPixel(randomX, randomY);
+            // set the ratio of the old and new pixel's values
             var newPix = mixColors(pixel, randomPix, originalColorRatio);
             pixel.setRed(newPix.red);
             pixel.setGreen(newPix.green);
@@ -232,15 +245,16 @@ function blurPixel(pixel, output, blurRange, originalColorRatio){
     }
 }
  
-
- function gaussianRandom() {
+// returns a random number between 0 and 1 with near-normal distribution
+function gaussianRandom() {
         var rand = 0;
         for (var i = 0; i < 6; i = i + 1) {
             rand = rand + Math.random();
         }
         return rand / 6;
- }
+}
 
+// mix the colors of two pixels
 function mixColors(firstPix, secondPix, firstPixelRatio){
     var firstPixRed = firstPix.getRed();
     var firstPixGreen = firstPix.getGreen();
@@ -258,13 +272,14 @@ function mixColors(firstPix, secondPix, firstPixelRatio){
     };
 }
 
-function doTunnelVision(){
-    isImageLoaded(_currentImg);
+function applyTunnelVisionFilter(){
+    checkImageLoaded(_currentImg);
     var tunneledPic = tunnelVisionPicMaker(_canvas);
     drawToCanvas(_canvas, tunneledPic);
 }
 
-function tunnelVisionPicMaker(canvas){
+// return an image blurred around a central circle
+function tunnelVisionPicMaker(img){        
     var output = new SimpleImage(_currentImg);
     if(output.width < output.height){
             var r = (output.width/2) * 0.7;
@@ -280,28 +295,23 @@ function tunnelVisionPicMaker(canvas){
         var distance = Math.sqrt(Math.pow((centerX-x), 2) + Math.pow((centerY-y), 2));
         if (distance > r){
             blurPixel(pixel, output, 20, 0.2);
-            }
-        else {
-            // do nothing
         }
     }
     return output;
 }
     
-
+// reset the original image
 function reSet(){
-    isImageLoaded(_currentImg);
+    checkImageLoaded(_currentImg);
     drawToCanvas(_canvas, _originalImg);
 }
 
 function clearCanvas(){
-    // get their contexts
     var ctx = _canvas.getContext('2d');
     ctx.clearRect(0, 0, _canvas.width, _canvas.height);
-    
 }
 
-function isImageLoaded(img){
+function checkImageLoaded(img){
     if(img == null || ! img.complete()){
         alert("Image is not loaded!");
         return;
